@@ -6,10 +6,6 @@ class Embed(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def info(self, ctx):
-        await ctx.send("Ког работает!")
-
     @commands.command(name='embed-say',
                     aliases=['embed'],
                     usage='<Заголовок> [Описание] [Авторы] [Цвет]',

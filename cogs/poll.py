@@ -5,8 +5,8 @@ from discord.ext import commands, tasks
 
 
 class Poll(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, client):
+        self.client = client
         self.emoji = ['1\u20e3', '2\u20e3', '3\u20e3', '4\u20e3', '5\u20e3',
                       '6\u20e3', '7\u20e3', '8\u20e3', '9\u20e3', '\U0001F51F']
 
@@ -95,8 +95,8 @@ class Poll(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.member.id != self.bot.user.id:
-            message = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
+        if payload.member.id != self.client.user.id:
+            message = await self.client.get_channel(payload.channel_id).fetch_message(payload.message_id)
             reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
 
             with open('.\\databases\\poll.json', 'r') as poll_file:
@@ -706,7 +706,7 @@ class Poll(commands.Cog):
                 total_seconds = time_delta.total_seconds()
                 calc_minutes = total_seconds / 60
 
-                channel = self.bot.get_channel(int(item[0]))
+                channel = self.client.get_channel(int(item[0]))
                 message = await channel.fetch_message(item[1]['message_id'])
 
                 with open('.\\databases\\poll.json', 'r') as poll_file:
@@ -733,5 +733,5 @@ class Poll(commands.Cog):
                             break
 
 
-def setup(bot):
-    bot.add_cog(Poll(bot))
+def setup(client):
+    client.add_cog(Poll(client))
